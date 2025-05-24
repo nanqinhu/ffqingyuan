@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浙江省庆元县林场发展信息图表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            background-color: #FDF0E6; 
+            color: #4A4A4A; 
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width, can be overridden by Tailwind */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height, adjust with Tailwind responsive classes */
+            max-height: 450px; /* Default max-height */
+        }
+        .stat-card {
+            background-color: #FFFFFF;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FF7F50; /* Coral accent */
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #797979; /* Medium Gray */
+            margin-top: 0.5rem;
+        }
+        .section-title {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: bold;
+            color: #20B2AA; /* LightSeaGreen accent */
+            margin-bottom: 1.5rem; /* mb-6 */
+            text-align: center;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        /* Energetic & Playful Palette (variant)
+            Background: #FDF0E6 (Very Light Peach)
+            Card Background: #FFFFFF (White)
+            Text Dark: #4A4A4A (Dark Gray)
+            Text Light: #797979 (Medium Gray)
+            Primary Accent (Orange): #FF7F50 (Coral)
+            Secondary Accent (Teal): #20B2AA (LightSeaGreen)
+            Chart Colors: #FF6384 (Pink), #36A2EB (Blue), #FFCE56 (Yellow), #4BC0C0 (Turquoise), #9966FF (Purple), #FF9F40 (Orange)
+        */
+        /* HTML Comment: Chosen color palette is "Energetic & Playful (variant)" as defined above. */
+        /* HTML Comment: Narrative Plan: Qingyuan's forestry journey - intro, history, current status (resources, initiatives), economic impact, challenges, future outlook (carbon sink, smart forestry, diversified economy). */
+        /* HTML Comment: Visualization Choices Summary: 
+            - Hero Stats (Forest Coverage): Single Big Number (HTML/CSS) - Goal: Inform.
+            - Intro Stats (Area, Forestry Land %): Stat Cards (HTML/CSS) - Goal: Inform.
+            - History Timeline: HTML/CSS Timeline - Goal: Change/Organize.
+            - Forest-Mushroom System Diagram: HTML/CSS Diagram - Goal: Organize/Inform.
+            - Forest Stock Volume Growth Chart: Bar Chart (Chart.js Canvas) - Goal: Compare/Change.
+            - Current Resource Stats: Stat Cards (HTML/CSS) - Goal: Inform.
+            - National Reserve Forest Model Diagram: HTML/CSS Flow Diagram - Goal: Organize.
+            - GDP Composition Chart: Donut Chart (Chart.js Canvas) - Goal: Compare.
+            - Edible Fungi Value: Single Big Number (HTML/CSS) - Goal: Inform.
+            - Forestry Employment Chart: Bar Chart (Chart.js Canvas) - Goal: Compare.
+            - Tourism Value: Stat Card (HTML/CSS) - Goal: Inform.
+            - Challenges List: HTML/CSS List - Goal: Organize/Inform.
+            - Carbon Sink Stats: Stat Card (HTML/CSS) - Goal: Inform.
+            - Smart Forestry Diagram: HTML/CSS Diagram - Goal: Organize.
+            - "Two Mountains" Paths List: HTML/CSS List - Goal: Organize.
+            All Chart.js uses Canvas. No SVG. No Mermaid JS.
+        */
+        /* HTML Comment: Explicitly confirm that NEITHER Mermaid JS NOR SVG were used anywhere in the output. Confirmed. */
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="py-12 bg-white shadow-lg">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: #FF7F50;">浙江省庆元县林场</h1>
+            <p class="text-xl md:text-2xl mb-6" style="color: #20B2AA;">“中国生态环境第一县”的林业探索与绿色发展之路</p>
+            <div class="stat-card inline-block max-w-xs">
+                <div class="stat-number">86.35%</div>
+                <div class="stat-label">森林覆盖率 (截至近年)</div>
+            </div>
+             <p class="mt-4 text-sm text-gray-600">庆元县以其卓越的生态环境和丰富的森林资源，走出了一条生态优先、绿色发展的高质量发展之路。</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <section class="my-12">
+            <h2 class="section-title">引言：庆元概览</h2>
+            <div class="card">
+                <p class="mb-4 text-lg leading-relaxed">庆元县，地处浙江省西南部，被誉为“中国生态环境第一县”和“浙江绿色屋脊、浙江绿谷之源”。这片土地总面积1898平方公里，其中林业用地占比高达近88.4%，是名副其实的“九山半水半分田”地区。其独特的亚热带季风气候为丰富的生物多样性和森林的繁茂生长提供了得天独厚的条件。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="stat-card">
+                        <div class="stat-number">1898</div>
+                        <div class="stat-label">总面积 (平方公里)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">88.4%</div>
+                        <div class="stat-label">林业用地占比</div>
+                    </div>
+                </div>
+                 <p class="mt-6 text-md leading-relaxed">庆元县的生态价值不仅体现在高森林覆盖率，更是钱江源-百山祖国家公园的核心区域，拥有包括百山祖冷杉在内的多种珍稀动植物。其发展始终围绕“保护好生态就是最大政绩”的嘱托，在生态保护与经济发展间寻求平衡与共赢。</p>
+            </div>
+        </section>
+
+        <section class="my-12">
+            <h2 class="section-title">历史沿革：百年林场的足迹</h2>
+            <div class="card">
+                <p class="mb-6 text-lg leading-relaxed">庆元县的林业发展历史悠久，从国家主导的早期建设到创新的合作模式，每一步都坚实地迈向绿色未来。特别是传承800余年的“林—菇共育系统”，更是人与自然和谐共生的典范。</p>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2" style="color: #FF7F50;">重要里程碑：</h3>
+                        <ul class="list-disc list-inside space-y-3 pl-4 text-gray-700">
+                            <li><span class="font-semibold">1976年:</span> 庆元林场成立，并建立杉木初级种子园，标志着系统性林业建设的开端。</li>
+                            <li><span class="font-semibold">20世纪70-80年代:</span> “国乡合作”模式大力推广，成功营造逾30万亩人工用材林，有效改善了生态环境。</li>
+                            <li><span class="font-semibold">1982年:</span> 庆元县实验林场创建，成为林业科技创新与经营模式改革的先行者。</li>
+                            <li><span class="font-semibold">2022年:</span> “浙江庆元林—菇共育系统”被联合国粮农组织认定为全球重要农业文化遗产（GIAHS）。</li>
+                        </ul>
+                    </div>
+                    <div class="mt-6 p-4 border-l-4 border-orange-400 bg-orange-50">
+                        <h4 class="text-lg font-semibold mb-2" style="color: #FF7F50;">“林—菇共育系统”：传承千年的智慧</h4>
+                        <p class="text-gray-700 leading-relaxed">这一系统将森林保育、菌菇栽培与山地农业有机融合，是庆元香菇产业的文化根基和生态基石。其核心区的森林覆盖率高达90%以上，是全球重要农业文化遗产中食用菌栽培系统的杰出代表。</p>
+                        <div class="flex items-center justify-center mt-4 space-x-4">
+                            <span class="text-4xl">🌲</span> <span class="text-2xl">+</span> <span class="text-4xl">🍄</span> <span class="text-2xl">+</span> <span class="text-4xl">🧑‍🌾</span>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-2">森林保育 + 菌菇栽培 + 农户生计 = 和谐共生</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="my-12">
+            <h2 class="section-title">发展现状：绿色宝库的今日图景</h2>
+            <div class="card">
+                <p class="mb-6 text-lg leading-relaxed">当前，庆元县森林资源持续增长，管理体系不断完善，并通过“国储林”建设、“林业五富工程”等重点举措，积极探索生态产品价值实现的新路径。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3" style="color: #FF7F50;">森林资源量质齐升</h3>
+                        <p class="mb-4 text-gray-700">庆元县森林覆盖率稳定在86%以上，活立木蓄积量显著增长，从早期的846万立方米增至近年的约1700万立方米，森林生态系统的质量和稳定性不断提升。</p>
+                        <div class="chart-container h-72 sm:h-80 md:h-96">
+                            <canvas id="forestStockChart"></canvas>
+                        </div>
+                        <p class="text-sm text-center mt-2 text-gray-600">图表：庆元县林木蓄积量增长示意</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="stat-card">
+                            <div class="stat-number text-3xl">~1700<span class="text-xl">万m³</span></div>
+                            <div class="stat-label">活立木总蓄积量 (近年)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number text-3xl">97.3%</div>
+                            <div class="stat-label">庆元县实验林场森林覆盖率</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <h3 class="text-xl font-semibold mb-4 text-center" style="color: #FF7F50;">重点举措与创新模式</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-6 border rounded-lg shadow-sm bg-teal-50 border-teal-200">
+                            <h4 class="text-lg font-semibold mb-2" style="color: #20B2AA;">“国储林”项目</h4>
+                            <p class="text-gray-700 leading-relaxed mb-2">旨在“为国家储材、为林农增富”，通过创新合作机制和多元化经营，盘活森林资源。项目一期计划收储16万亩，预计为村集体和林农带来17.2亿元收益。</p>
+                            <p class="text-sm text-gray-600">运作模式：国有企业出资 + 林场技术支持 + 林农林地入股 + 收益共享</p>
+                        </div>
+                        <div class="p-6 border rounded-lg shadow-sm bg-orange-50 border-orange-200">
+                            <h4 class="text-lg font-semibold mb-2" style="color: #FF7F50;">“林业五富工程”</h4>
+                            <p class="text-gray-700 leading-relaxed mb-2">作为省级林业共富试点，以五大核心支柱带动超5万林农增收致富：</p>
+                            <ul class="list-none space-y-1 text-sm text-gray-600 pl-0">
+                                <li>🤝 国乡合作促富</li>
+                                <li>🌳 特色产业增富</li>
+                                <li>🏞️ 国家公园带富</li>
+                                <li>🌿 林下经济帮富</li>
+                                <li>🌍 林业碳汇造富</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <p class="mt-6 text-md leading-relaxed">这些举措正推动庆元林业从传统木材生产向量质并重、多元增效的现代林业转型，将生态优势源源不断地转化为经济发展新动能。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="my-12">
+            <h2 class="section-title">经济贡献：绿水青山化金山</h2>
+            <div class="card">
+                <p class="mb-6 text-lg leading-relaxed">庆元县的林业及其相关产业是县域经济的绿色引擎，不仅贡献了显著的直接经济产出，更在带动就业、促进农民增收方面发挥着关键作用，生动实践着“两山”转化。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="md:col-span-1 lg:col-span-1">
+                        <h3 class="text-xl font-semibold mb-3 text-center" style="color: #FF7F50;">GDP构成 (2023年)</h3>
+                        <div class="chart-container h-64 sm:h-72">
+                            <canvas id="gdpCompositionChart"></canvas>
+                        </div>
+                        <p class="text-sm text-center mt-2 text-gray-600">图表：庆元县第一产业对GDP的贡献</p>
+                    </div>
+                    <div class="md:col-span-1 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="stat-card">
+                            <div class="stat-number">50<span class="text-xl">亿元</span></div>
+                            <div class="stat-label">食用菌全产业链产值</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">7.5%</div>
+                            <div class="stat-label">旅游产业增加值占GDP比重 (2021年)</div>
+                        </div>
+                         <div class="stat-card sm:col-span-2">
+                            <div class="stat-number">40000+</div>
+                            <div class="stat-label">食用菌产业带动从业人员</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4 text-center" style="color: #FF7F50;">林业带动就业与富民</h3>
+                     <p class="text-center text-gray-700 mb-4">通过“国储林”、“林业五富工程”等项目，林业经济效益惠及广大林农。</p>
+                    <div class="chart-container h-72 sm:h-80 md:h-96 max-w-3xl">
+                        <canvas id="employmentChart"></canvas>
+                    </div>
+                    <p class="text-sm text-center mt-2 text-gray-600">图表：林业相关项目带动就业/受益人群示意</p>
+                     <p class="mt-6 text-md leading-relaxed">庆元林业的经济角色已从单纯的资源产出，扩展到就业创造、收入分配调节、产业链延伸及新兴服务业培育等多个维度，成为共同富裕道路上的重要支撑。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="my-12">
+            <h2 class="section-title">面临挑战：发展中的思考</h2>
+            <div class="card">
+                <p class="mb-6 text-lg leading-relaxed">尽管成就斐然，庆元林业在迈向更高质量发展的征途中，仍面临一些挑战，需要系统性应对。</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="flex items-start p-4 border rounded-lg bg-gray-50">
+                        <span class="text-3xl mr-4">👨‍🌾📉</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">劳动力结构变化</h4>
+                            <p class="text-sm text-gray-600">农村劳动力短缺与老龄化影响林业生产效率。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 border rounded-lg bg-gray-50">
+                        <span class="text-3xl mr-4">📈📉</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">市场波动与升级</h4>
+                            <p class="text-sm text-gray-600">初级产品价格波动，产业亟需向高附加值转型。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 border rounded-lg bg-gray-50">
+                        <span class="text-3xl mr-4">💰🛡️</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">生态保护持续投入</h4>
+                            <p class="text-sm text-gray-600">维持高生态质量需长期稳定的资金与机制保障。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 border rounded-lg bg-gray-50">
+                        <span class="text-3xl mr-4">⚖️</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">保护与利用平衡</h4>
+                            <p class="text-sm text-gray-600">在严格保护下科学利用，实现效益协同最大化。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 border rounded-lg bg-gray-50">
+                        <span class="text-3xl mr-4">🐛🚫</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">林业有害生物防治</h4>
+                            <p class="text-sm text-gray-600">松材线虫病等持续威胁森林健康，防控压力大。</p>
+                        </div>
+                    </div>
+                     <div class="flex items-start p-4 border rounded-lg bg-gray-50">
+                        <span class="text-3xl mr-4">🏔️🚗</span>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">山区基础设施</h4>
+                            <p class="text-sm text-gray-600">地形复杂，基础设施建设相对滞后，增加成本。</p>
+                        </div>
+                    </div>
+                </div>
+                 <p class="mt-6 text-md leading-relaxed">应对这些挑战需要多方面的综合策略，包括政策创新、科技赋能、市场开拓和人才培养，以增强庆元林业发展的韧性与可持续性。</p>
+            </div>
+        </section>
+
+        <section class="my-12">
+            <h2 class="section-title">未来展望：迈向可持续的绿色未来</h2>
+            <div class="card">
+                <p class="mb-6 text-lg leading-relaxed">展望未来，庆元县林场将聚焦生态产品价值实现，深化“两山”转化路径，大力发展智慧林业和碳汇经济，推动林业与旅游、康养、文化等产业深度融合，打造山区林业可持续发展的“庆元样板”。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3" style="color: #FF7F50;">碳汇林业新探索</h3>
+                        <p class="text-gray-700 mb-4">积极发展林业碳汇，将其作为生态优势变现的关键路径。通过机制创新和技术应用，提升森林碳汇能力，参与市场交易。</p>
+                        <div class="stat-card">
+                            <div class="stat-number text-3xl">19172<span class="text-xl">吨</span></div>
+                            <div class="stat-label">已备案登记的碳减排量</div>
+                        </div>
+                        <div class="stat-card mt-4">
+                            <div class="stat-number text-3xl">13.5<span class="text-xl">万元</span></div>
+                            <div class="stat-label">已实现碳汇交易额</div>
+                        </div>
+                         <p class="text-sm text-gray-600 mt-3">庆元县贤良镇森林经营碳汇项目已为杭州亚运会提供碳中和支持。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3" style="color: #20B2AA;">智慧林业与可持续经营</h3>
+                        <p class="text-gray-700 mb-4">建设“林业共富数字平台”，推广应用GIS、无人机等现代技术，实现从“数字林业”到“智慧林业”的升级，提升森林经营的科学化、精准化水平。</p>
+                        <div class="p-4 border rounded-lg bg-teal-50 text-center">
+                            <span class="text-4xl">🖥️🛰️🌲</span>
+                            <p class="mt-2 text-gray-700">数据赋能 + 科技引领 = 高效精准林业管理</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <h3 class="text-xl font-semibold mb-4 text-center" style="color: #FF7F50;">“两山”转化路径的多元拓展</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center p-3 bg-gray-50 rounded-lg"><span class="text-2xl mr-3">🏞️</span><span>深度融合文旅康养产业，打造生态旅游、研学旅行、森林康养等多元产品。</span></li>
+                        <li class="flex items-center p-3 bg-gray-50 rounded-lg"><span class="text-2xl mr-3">🍄</span><span>传承提升“林—菇共育系统”，发展香菇文化体验，延伸食用菌产业链。</span></li>
+                        <li class="flex items-center p-3 bg-gray-50 rounded-lg"><span class="text-2xl mr-3">🌿</span><span>巩固创新特色生态经济，深化“一村一品”，发展林下中药材等多元林下经济。</span></li>
+                    </ul>
+                </div>
+                 <p class="mt-6 text-md leading-relaxed">通过政策创新、科技引领和市场拓展，庆元林场正努力将生态优势最大化，在维护区域生态安全、促进地方经济繁荣和带动林农共同富裕的道路上行稳致远。</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-8 bg-gray-800 text-white text-center">
+        <p>&copy; 2024 庆元县林场发展报告信息图表。根据提供资料生成。</p>
+    </footer>
+
+    <script>
+        function wrapText(text, maxWidth) {
+            if (typeof text !== 'string') return text;
+            const words = text.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length <= maxWidth) {
+                    currentLine += (currentLine ? ' ' : '') + word;
+                } else {
+                    if (currentLine) lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            
+            if (lines.length === 0 && text.length > maxWidth) { // Handle single long words or CJK text
+                 lines = [];
+                 let tempText = text;
+                 while(tempText.length > 0){
+                    lines.push(tempText.substring(0, maxWidth));
+                    tempText = tempText.substring(maxWidth);
+                 }
+            } else if (lines.length === 0) {
+                lines.push(text);
+            }
+            return lines.length > 1 ? lines : lines[0]; // Return array for multiline, string for single
+        }
+        
+        const commonTooltipTitleCallback = function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            } else {
+              return label;
+            }
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#4A4A4A' 
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: commonTooltipTitleCallback
+                    },
+                    titleColor: '#FFFFFF',
+                    bodyColor: '#FFFFFF',
+                    backgroundColor: '#4A4A4A',
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#4A4A4A' },
+                    grid: { display: false }
+                },
+                y: {
+                    ticks: { color: '#4A4A4A' },
+                    grid: { color: '#E5E7EB' } 
+                }
+            }
+        };
+
+        // Chart 1: Forest Stock Chart
+        const forestStockCtx = document.getElementById('forestStockChart').getContext('2d');
+        new Chart(forestStockCtx, {
+            type: 'bar',
+            data: {
+                labels: [wrapText('早期记载',10), wrapText('近年数据',10)],
+                datasets: [{
+                    label: '林木蓄积量 (万立方米)',
+                    data: [846, 1700],
+                    backgroundColor: ['#FFCE56', '#FF6384'],
+                    borderColor: ['#FFCE56', '#FF6384'],
+                    borderWidth: 1
+                }]
+            },
+            options: { ...commonChartOptions }
+        });
+
+        // Chart 2: GDP Composition Chart
+        const gdpCtx = document.getElementById('gdpCompositionChart').getContext('2d');
+        new Chart(gdpCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [wrapText('第一产业 (林业等)',16), wrapText('其他产业',16)],
+                datasets: [{
+                    data: [8.26, 91.74], // 2023年第一产业占比约8.26%
+                    backgroundColor: ['#4BC0C0', '#E0E0E0'],
+                    hoverBackgroundColor: ['#3AA9A9', '#CCCCCC']
+                }]
+            },
+            options: { 
+                ...commonChartOptions,
+                cutout: '60%',
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    legend: { position: 'bottom', labels: { color: '#4A4A4A' } }
+                }
+            }
+        });
+        
+        // Chart 3: Employment Chart
+        const employmentCtx = document.getElementById('employmentChart').getContext('2d');
+        const employmentLabels = [
+            wrapText('食用菌产业从业人员', 16), 
+            wrapText('“国储林”项目一期预计惠及林农', 16), 
+            wrapText('“林业五富工程”目标带动林农', 16),
+            wrapText('庆元县实验林场带动增收林农', 16)
+        ];
+        new Chart(employmentCtx, {
+            type: 'bar',
+            data: {
+                labels: employmentLabels,
+                datasets: [{
+                    label: '受益/从业人数 (人)',
+                    data: [40000, 100000, 50000, 70000],
+                    backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384', '#4BC0C0'],
+                }]
+            },
+            options: { 
+                ...commonChartOptions,
+                 indexAxis: 'y', 
+                 scales: {
+                    x: { ...commonChartOptions.scales.x, title: { display: true, text: '人数', color: '#4A4A4A'} },
+                    y: { ...commonChartOptions.scales.y }
+                 }
+            }
+        });
+
+    </script>
+</body>
+</html>
